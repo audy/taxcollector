@@ -11,12 +11,17 @@ import sys
 
 # Edit these as you wish. (case-sensitive!):
 # taxExemption - levels of taxonomy to exclude.
-taxExemption = ['subspecies','subgenus','subfamily','suborder','subclass','subphylum','subkingdom','superspecies','superfamily','superorder','superclass','superphylum','no rank','tribe','authority','varietas','species group','species subgroup','infaclass']
+taxExemption = ['subspecies','subgenus','subfamily','suborder','subclass',
+'subphylum','subkingdom','superspecies','superfamily','superorder',
+'superclass','superphylum','no rank','tribe','authority','varietas',
+'species group','species subgroup','infaclass']
+
 # concerned - levels of taxonomy to include in the final output (IN ORDER).
-taxInclusion =  [ 'superkingdom','phylum','class','order','family','genus','species' ]
+taxInclusion =  [ 'superkingdom','phylum','class',
+'order','family','genus','species' ]
 
 def main_rdp(argv):
-	''' The Fish & Chips '''
+	''' main() for RDP '''
 	if not len(argv) == 5:
 		print 'USAGE:', argv[0], '<names file> <nodes file> <RDP file> <output file>'
 		quit(2)
@@ -39,24 +44,23 @@ def main_rdp(argv):
 	
 
 def main_gg(argv):
-
+    ''' main() for GreenGenes '''
 	if not len(argv) == 6:
 		print 'USAGE:',argv[0],'<names file> <nodes file> <ProkDB file> <RDP file> <output file>'
 		quit(2)
 
-	fnNames,fnNodes,fnProk,fnDB,fnOutput = argv[1:6]
+	fnNames, fnNodes, fnProk, fnDB, fnOutput = argv[1:6]
 
-	print 'Loading NCBI databases:',fnNames,fnNodes
+	print 'Loading NCBI Names: %s & Nodes: %s' % (fnNames, fnNodes)
+	rNames, Nodes = loadTax(fnNames,fnNodes)
 
-	rNames,Nodes = loadTax(fnNames,fnNodes)
-
-	print 'Loading GreenGenes database:',fnDB
+	print 'Loading GreenGenes database: %s' % fnDB
 	fastaDB = loadGreenGenes(fnDB)
-	print 'Loading ProkMSA database:',fnProk
+	
+	print 'Loading ProkMSA database: %s', % fnProk
 	ProkIDs = loadProkIds(fnProk)
 
 	print 'Searching...'
-
 	for item in fastaDB:
 		prokID = item[0]
 		if prokID in ProkIDs:
@@ -129,9 +133,7 @@ def loadGreenGenes(fnGG):
 		quit(2)
 
 	Genes = []
-
 	counter,sequence,prokid,Database = 0,'','',[]
-
 	for line in GG:
 		if line[:1] == '>':
 			Genes.append([prokid,sequence])
@@ -142,8 +144,7 @@ def loadGreenGenes(fnGG):
 			except: pass
 		else:
 			sequence += line
-
-	print counter,'GreenGenes records loaded from',fnGG
+	print ' %s GreenGenes records loaded from %s' %  (counter, fnGG)
 
 	return Genes
 
