@@ -1,8 +1,7 @@
 # TaxCollector
 
 
-By: Austin G. Davis-Richardson
-    <harekrishna@gmail.com>
+By: Austin G. Davis-Richardson <harekrishna@gmail.com>
 
 At: Triplett Lab
     Department of Microbiology & Cell Science
