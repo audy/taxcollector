@@ -1,11 +1,12 @@
 # TaxCollector
 
 
-By: Austin G. Davis-Richardson <harekrishna@gmail.com>
+* Austin G. Davis-Richardson 
+  <harekrishna@gmail.com>
 
-At: Triplett Lab
-    Department of Microbiology & Cell Science
-    University of Florida, Gainesville, FL
+* Triplett Lab
+  Department of Microbiology & Cell Science
+  University of Florida, Gainesville, FL
 
 
 # Description
