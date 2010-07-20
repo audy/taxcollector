@@ -9,13 +9,9 @@
 # USAGE: python remdup.py <fasta file 1> <fasta file 2> <output file>
 # Should work on any two fasta files with similar header formats.
 
-
-import os
 import sys
-import string
 
 def main(argv):
-
 	try:
 		first = open(argv[1],'r')
 		second = open(argv[2],'r')
@@ -49,7 +45,6 @@ def main(argv):
 	print 'Found', counter, 'duplicates.'
 	print 'Saved as', argv[3]
 	
-
 class Fasta:
 	def __init__(self, name, sequence):
 		self.name = name
