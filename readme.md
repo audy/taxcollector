@@ -20,11 +20,11 @@ with NCBI Blast.
 
 # Scripts
   
- * __Green.py__ - Taxonomic Elaborator for the GreenGenes database.
- * __RDP.py__ - Taxonomic Elaborator for the RDP database.
+ * __greengenes.py__ - Taxonomic Elaborator for the GreenGenes database.
+ * __rdp.py__ - Taxonomic Elaborator for the RDP database.
  * __acctotax.py__ - Generates a flat text file of ProkMSA numbers and their corresponding
    NCBI TaxIDs for use by Green.py
-
+ * __common.py__ - Common subroutines used by `rdp.py` and `greengenes.py`
     
 # Instructions
   
