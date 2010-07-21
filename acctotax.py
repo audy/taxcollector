@@ -17,7 +17,7 @@ def main(argv):
 	taxi, prokMSA = '', ''
 	try:
 		handle = open(argv[1],'r')
-		outtie = open(argv[1] + 'out','w')
+		outtie = open('proktable.txt','w')
 	except:
 		print 'USAGE:', argv[0], 'inputfile'
 		
