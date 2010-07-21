@@ -27,7 +27,6 @@ with NCBI Blast.
  * __common.py__ - Common subroutines used by `rdp.py` and `greengenes.py`
     
 # Instructions
-  
 
 * __Taxonomy Files__:
 
@@ -53,13 +52,29 @@ with NCBI Blast.
   of corresponding ProkMSA ID's and TaxIDs.  To do this, download the Green-
   Genes database in "GreenGenes" format (usually a .txt file).  Then run the
   script acctotax to generate the table:
-          
+
+	You need to download and extract this file, which is `inputfile`:
+	
+	<http://greengenes.lbl.gov/Download/Sequence_Data/Greengenes_format/greengenes16SrRNAgenes.txt.gz>
+   
+	Then generate proktable.txt
+       
   `python acctotax.py inputfile`
           
   The script automatically generates an output file named 'inputfileout'        
   Now you can run the TaxCollector script, green.py which is invoked as thus,
           
   `python green.py names.dmp nodes.dmp proktable.txt input.fas output.fas`
+
+* __Removing Duplicates__:
+
+	Sometimes it's useful to remove duplicate entires if you combine an RDP
+	and GreenGenes database.  This can be acheived with `rempdup.py`
+	
+	`python remdup.py <fasta file 1> <fasta file 2> <output file>`
+		
+	This script removes duplicate FASTA files based on headers, not sequences.
+	It also requires that you have more RAM than the size of your sequence files.
           
 # Output Format
   
