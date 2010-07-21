@@ -1,4 +1,4 @@
 if __name__ == '__main__':
     from common import *
-    import sys.argv
-    main_rdp(sys.argv)
+    from sys import argv
+    main_rdp(argv)
