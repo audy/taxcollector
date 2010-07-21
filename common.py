@@ -22,7 +22,7 @@ taxInclusion =	[ 'superkingdom','phylum','class',
 def main_rdp(argv):
 	''' main() for RDP '''
 	if not len(argv) == 5:
-		print 'USAGE:', argv[0], '<names file> <nodes file> <RDP file> <output file>'
+		print 'USAGE: %s <names> <nodes> <DB> <output file>' % argv[0]
 		quit(2)
 	fnNames, fnNodes, fnRDP, fnOutput = argv[1:5]
 	
@@ -45,7 +45,7 @@ def main_rdp(argv):
 def main_gg(argv):
 	''' main() for GreenGenes '''
 	if not len(argv) == 6:
-		print 'USAGE:',argv[0],'<names file> <nodes file> <ProkDB file> <RDP file> <output file>'
+		print 'USAGE: %s <names> <nodes> <ProkDB> <RDP> <output>' % argv[0]
 		quit(2)
 	
 	fnNames, fnNodes, fnProk, fnDB, fnOutput = argv[1:6]
@@ -66,7 +66,6 @@ def main_gg(argv):
 			item.append( getNames( getIDs(prokID,ProkIDs,Nodes),rNames) )
 	
 	saveDB(fastaDB,fnOutput)
-
 
 def saveDB(RDP, fnOutput):
 	''' Saves TaxCollected Database'''
