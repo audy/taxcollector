@@ -1,5 +1,4 @@
-# TaxCollector 1.5.0
-
+# TaxCollector 1.0.0
 
 * Austin G. Davis-Richardson 
   <harekrishna@gmail.com>
