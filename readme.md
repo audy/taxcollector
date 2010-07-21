@@ -75,6 +75,11 @@ with NCBI Blast.
 		
 	This script removes duplicate FASTA files based on headers, not sequences.
 	It also requires that you have more RAM than the size of your sequence files.
+	
+* __Removing Uncultured__:
+
+	This will remove any sequences that are "uncultured":
+	`python unculturedRemover.py <input> <output>`
           
 # Output Format
   

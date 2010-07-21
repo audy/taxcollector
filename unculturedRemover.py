@@ -6,18 +6,14 @@ adavisr@ufl.edu
 
 Removes cloned or unculted rRNA sequences from a greengenes file.
 
-usage: python cloneremover.py <input file> <output file>
+usage: python unculturedremover.py <input file> <output file>
 
 """
-
-import sys
 import os
-import string
 
 def main(argv):
 
 	fasta = []
-	
 	try:
 		handle = open(argv[1],'r')
 		outfile = open(argv[2],'w')
