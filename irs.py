@@ -10,25 +10,76 @@ Austin G. Davis-Richardson
 
 import sys
 
+phyla = ['superkingdom', 'phylum', 'class', 'order', 'genus', 'species', '_sbsp']
+
 def main():
-    """ """
-    names = 'names.dmp'
-    nodes = 'nodes.dmp'
+    """ For Glory! """
     
-    print 'loading %s' % names
+    try:
+        names = sys.argv[1] 
+        nodes = sys.argv[2]
+        fasta = sys.argv[3]
+        out = sys.argv[4]
+    except IndexError:
+        print >> sys.stderr, 'USAGE: %s names nodes fasta out' % sys.argv[0]
+        quit(-1)
+            
     with open(names) as handle:
         names = Names(handle)
-        
-    print names.get_name(100)
-        
-    print 'loading %s' % nodes
+            
     with open(nodes) as handle:
         nodes = Nodes(handle)
-        
-    print nodes
+
+    collect_taxes = tax_collector(names, nodes)
     
-    # Should we only load Names we care about?
-    # Maybe we should just index our names and nodes files.
+    outout = open(out, 'w')
+
+    with open(fasta) as handle:
+        for line in handle:
+            if line.startswith('>'):
+                name = line[line.find(' ')+1:line.find(';')].replace('(T)', '').strip()
+                taxes = collect_taxes(name)
+                phylogeny = format_name(taxes)
+                print >> outout, '>%s' % phylogeny.replace(' ', '_')
+            else:
+                print >> outout, line.strip()
+                
+    outout.close()
+                
+
+def format_name(taxes):
+    """ Formats Phylogeny """
+    p, c = [], 1
+    for i in phyla:
+        try:
+            n = '[%s]%s;' % (c, taxes[i])
+            p.append(n)
+        except KeyError:
+            continue
+        finally:
+            c += 1
+    return ''.join(p).rstrip(';')
+    
+
+def tax_collector(names, nodes):
+    """ Returns a taxonomy given a name"""
+    def collect_taxes(name):
+        taxes = {}
+        i = names.get_id(name)
+        n = nodes.get_parent(i)
+        taxes['species'] = ' '.join(name.split()[:2])
+        taxes['_sbsp'] = name
+    
+        while i not in (None, 1):
+            i = n['parent']
+            n = nodes.get_parent(i) 
+            t = n['childtype']
+            name = names.get_name(i)
+            taxes[t] = name
+
+        return taxes
+    return collect_taxes
+    
     
 class Names(object):
     """ Names Database """
@@ -40,7 +91,7 @@ class Names(object):
         for line in handle:
             line = line.split('\t|\t')
             taxid = int(line[0])
-            name = line[1].replace(' ', '')
+            name = line[1].replace(' ', '_')
             kind = line[3].replace('\t|\n', '')
             
             if 'scientific name' == kind:
@@ -57,9 +108,10 @@ class Names(object):
     def get_id(self, name):
         """ Return an ID given a Name """
         try:
-            return self.d[name]
+            return self.d[name.replace(' ', '_')]
         except KeyError:
             return None
+    
     
 class Nodes(object):
     """ Nodes Database """
@@ -70,12 +122,13 @@ class Nodes(object):
             taxid, parentid, childtype = line.split('\t|\t')[:3]
             taxid = int(taxid)
             parentid = int(parentid)
-            self.n[taxid] = { 'parent': parentid, 'type': childtype }
+            self.n[taxid] = { 'parent': parentid, 'childtype': childtype }
+
     def get_parent(self, taxid):
         try:
             return self.n[taxid]
         except KeyError:
-            return None
+            return { 'parent': None, 'childtype': None }
 
 
 if __name__ == '__main__':
