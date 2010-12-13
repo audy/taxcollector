@@ -11,15 +11,14 @@ Austin G. Davis-Richardson
 import sys
 
 phyla = ['superkingdom', 'phylum', 'class', 'order', 'genus', 'species', '_sbsp']
+required = (1, 2, 3, 4, 5)
 
 def main():
-    """ For Glory! """
-    
+    """ For Glory! """    
     try:
         names = sys.argv[1] 
         nodes = sys.argv[2]
         fasta = sys.argv[3]
-        out = sys.argv[4]
     except IndexError:
         print >> sys.stderr, 'USAGE: %s names nodes fasta out' % sys.argv[0]
         quit(-1)
@@ -31,25 +30,37 @@ def main():
         nodes = Nodes(handle)
 
     collect_taxes = tax_collector(names, nodes)
-    
-    outout = open(out, 'w')
 
     with open(fasta) as handle:
-        for line in handle:
-            if line.startswith('>'):
-                name = line[line.find(' ')+1:line.find(';')].replace('(T)', '').strip()
-                taxes = collect_taxes(name)
-                phylogeny = format_name(taxes)
-                print >> outout, '>%s' % phylogeny.replace(' ', '_')
-            else:
-                print >> outout, line.strip()
+        skipped = 0
+        records = Fasta(handle)
+        for record in records:
+            h = record.header
+            name = h[h.find(' ')+1:h.find(';')].replace('(T)', '').strip()
+            taxes = collect_taxes(name)
+            phylogeny = format_name(taxes)
+            record.header = phylogeny.replace(' ','_')
+            p = True
+            for r in required:
+                if '[%s]' % r not in phylogeny:
+                    skipped += 1
+                    p = False
+            if p:
+                print record
                 
-    outout.close()
+    print >> sys.stderr, '%s skipped.' % skipped
                 
 
 def format_name(taxes):
     """ Formats Phylogeny """
+    
+    if 'genus' not in taxes:
+        taxes['genus'] = '\"%s\"' % taxes['species']
+    elif 'order' not in taxes:
+        taxes['order'] = '\"%s\"' % taxes['genus']
+    
     p, c = [], 1
+        
     for i in phyla:
         try:
             n = '[%s]%s;' % (c, taxes[i])
@@ -129,6 +140,32 @@ class Nodes(object):
             return self.n[taxid]
         except KeyError:
             return { 'parent': None, 'childtype': None }
+
+class Fasta:
+    """ Fasta Interpreter """
+    def __init__(self, handle):
+        self.handle = handle
+
+    def __iter__(self):
+        header = ''
+        sequence = []
+        for line in self.handle:
+            if line[0] == '>':
+                if sequence:
+                    yield Dna(header, sequence)
+                header, sequence = line[1:-1], []
+            else:
+                sequence.append(line.strip())
+        yield Dna(header, sequence)
+
+class Dna:
+    ''' An object representing either a FASTA or FASTQ record '''
+    def __init__(self, header, sequence, quality = False):
+        self.header = header
+        self.sequence = sequence
+    def __str__(self):
+        ''' returns a FASTA/Q formatted string '''
+        return ('>%s\n%s') % (self.header, '\n'.join(self.sequence))
 
 
 if __name__ == '__main__':
