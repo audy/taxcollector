@@ -10,7 +10,7 @@ Austin G. Davis-Richardson
 
 import sys
 
-phyla = ['superkingdom', 'phylum', 'class', 'order', 'genus', 'species', '_sbsp']
+phyla = ['superkingdom', 'phylum', 'class', 'order', 'family', 'genus', 'species', '_sbsp']
 required = (1, 2, 3, 4, 5)
 
 def main():
