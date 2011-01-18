@@ -13,7 +13,13 @@ TaxCollector is a tool for modifying the Ribosomal Database Project (RDP) 16S rR
 
 For example, this script takes the default RDP header:
 
+    >S001018666 uncultured Acidobacteria bacterium; 2YMLF03; EF630306
+
 And converts it to this:
+
+    [1]Bacteria;[2]Acidobacteria;[3]Acidobacteria_(class);[4]Acidobacteriales;[5]Acidobacteriaceae;[6]"uncultured_Acidobacteriaceae";[7]uncultured_Acidobacteriaceae;[8]uncultured_Acidobacteriaceae_bacterium
+
+This can be useful for some people. For others, not.
 
 ## Invocation
 
@@ -23,8 +29,8 @@ Just cd into the `taxcollector/` directory and type `rake`.
 
 Otherwise, invoke _comme ca_
 
-  python taxcollector.py names.dmp nodes.dmp input.fasta > output.fasta
-  
+    python taxcollector.py names.dmp nodes.dmp input.fasta > output.fasta
+
 You can get names.dmp and nodes.dmp from [NCBI's FTP site](ftp://ftp.ncbi.nih.gov/taxdump.tar.gz).
 
 My favorite way to do this is by typing
