@@ -45,6 +45,7 @@ def main():
                 if '[%s]' % r not in phylogeny:
                     skipped += 1
                     p = False
+                    break
             if p:
                 print record
                 
