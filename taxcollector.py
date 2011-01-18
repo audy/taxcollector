@@ -51,7 +51,6 @@ def main():
                 
     print >> sys.stderr, '%s skipped.' % skipped
                 
-
 def format_name(taxes):
     """ Formats Phylogeny """
     
@@ -72,7 +71,6 @@ def format_name(taxes):
             c += 1
     return ''.join(p).rstrip(';')
     
-
 def tax_collector(names, nodes):
     """ Returns a taxonomy given a name"""
     def collect_taxes(name):
@@ -91,7 +89,6 @@ def tax_collector(names, nodes):
 
         return taxes
     return collect_taxes
-    
     
 class Names(object):
     """ Names Database """
@@ -123,7 +120,6 @@ class Names(object):
             return self.d[name.replace(' ', '_')]
         except KeyError:
             return None
-    
     
 class Nodes(object):
     """ Nodes Database """
@@ -167,7 +163,6 @@ class Dna:
     def __str__(self):
         ''' returns a FASTA/Q formatted string '''
         return ('>%s\n%s') % (self.header, '\n'.join(self.sequence))
-
 
 if __name__ == '__main__':
     try:
