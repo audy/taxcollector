@@ -10,11 +10,20 @@ Austin G. Davis-Richardson
 
 import sys
 
-phyla = ['superkingdom', 'phylum', 'class', 'order', 'family', 'genus', 'species', '_sbsp']
+phyla = [ 'superkingdom',
+          'phylum',
+          'class',
+          'order',
+          'family',
+          'genus',
+          'species',
+          '_sbsp'
+         ]
+         
 required = (1, 2, 3, 4, 5)
 
 def main():
-    """ For Glory! """    
+    """ For Glory! """
     try:
         names = sys.argv[1] 
         nodes = sys.argv[2]
@@ -49,7 +58,7 @@ def main():
             if p:
                 print record
                 
-    print >> sys.stderr, '%s skipped.' % skipped
+    print >> sys.stderr, '%s names not found in NCBI database.' % skipped
                 
 def format_name(taxes):
     """ Formats Phylogeny """
