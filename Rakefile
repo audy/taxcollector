@@ -1,14 +1,19 @@
 require 'rake/clean'
 
 task :default => 'tc_rdp.fa' do
-  
+  print "TaxCollector -> tc_rdp.fa"
 end
 
 task :ncbi => ['names.dmp', 'nodes.dmp']
 task :rdp => 'rdp.fa'
 
-file 'tc_rdp.fa' => ['rdp.fa', 'names.dmp', 'nodes.dmp'] do
-  sh 'python taxcollector.py names.dmp nodes.dmp rdp.fa > tc_rdp.fa'  
+file 'tc_rdp.fa' => ['rdp_filtered.fa', 'names.dmp', 'nodes.dmp'] do
+  sh 'python taxcollector.py names.dmp nodes.dmp rdp.fa > tc_rdp.fa'
+  rm 'rdp_filtered.fa'
+end
+
+file 'rdp_filtered.fa' => 'rdp.fa' do
+  sh "python filter_and_remove_duplicates.py rdp.fa > rdp_filtered.fa"
 end
 
 file 'names.dmp', 'nodes.dmp' do |task|

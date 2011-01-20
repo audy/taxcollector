@@ -16,16 +16,13 @@ For example, this script takes the default RDP header:
     >S001018666 uncultured Acidobacteria bacterium; 2YMLF03; EF630306
 
 And converts it to this:
-
     [1]Bacteria;[2]Acidobacteria;[3]Acidobacteria_(class);[4]Acidobacteriales;[5]Acidobacteriaceae;[6]"uncultured_Acidobacteriaceae";[7]uncultured_Acidobacteriaceae;[8]uncultured_Acidobacteriaceae_bacterium
 
 This can be useful for some people. For others, not.
 
 ## Invocation
 
-For simplicity, there is a Rakefile that retrieves all required databases from their sources and creates the TaxCollector database.
-
-Just cd into the `taxcollector/` directory and type `rake`.
+### TaxCollector
 
 Otherwise, invoke _comme ca_
 
@@ -38,6 +35,25 @@ My favorite way to do this is by typing
     curl ftp://ftp.ncbi.nih.gov/pub/taxonomy/taxdump.tar.gz | gunzip | tar -xvf names.dmp nodes.dmp
 
 The FASTA file must come from RDP [http://rdp.cme.msu.edu].
+
+
+### Removing unwanted records
+
+There is a script included to remove duplicate records (records that have exactly the same sequence), as well as records that contain the following words in the header (before taxcollecting):
+
+	eukarya, clone, plasmid, cloning_vector, chloroplast
+	
+	(case in-sensitive)
+
+	Usage:
+
+	`python filter_and_remove_duplicates.py rdp.fa > rdp_filtered.fa`
+
+### Rakefile
+
+For simplicity, there is a Rakefile that retrieves all required databases from their sources, filters duplicates and unwanted "words", and creates the TaxCollector database.
+
+Just cd into the `taxcollector/` directory and type `rake`. This will result in creation of the file: `tc_rdp.fa`, which is your TaxCollector database.
 
 ## License
 
