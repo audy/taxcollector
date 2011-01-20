@@ -18,6 +18,8 @@ For example, this script takes the default RDP header:
 And converts it to this:
     [1]Bacteria;[2]Acidobacteria;[3]Acidobacteria_(class);[4]Acidobacteriales;[5]Acidobacteriaceae;[6]"uncultured_Acidobacteriaceae";[7]uncultured_Acidobacteriaceae;[8]uncultured_Acidobacteriaceae_bacterium
 
+Notice that the Genus is in "quotes." This means that there was no entry for Genus in the NCBI names and nodes databases. In this case, TaxCollector will make one up, recycling the previous name. This only happens for Genus and Order.
+
 This can be useful for some people. For others, not.
 
 ## Invocation
@@ -34,26 +36,32 @@ My favorite way to do this is by typing
 
     curl ftp://ftp.ncbi.nih.gov/pub/taxonomy/taxdump.tar.gz | gunzip | tar -xvf names.dmp nodes.dmp
 
-The FASTA file must come from RDP [http://rdp.cme.msu.edu].
+The FASTA file must come from RDP (http://rdp.cme.msu.edu).
 
 
 ### Removing unwanted records
 
 There is a script included to remove duplicate records (records that have exactly the same sequence), as well as records that contain the following words in the header (before taxcollecting):
 
-	eukarya, clone, plasmid, cloning_vector, chloroplast
-	
-	(case in-sensitive)
+	Eukarya, Clone, Plasmid, Cloning_vector, Uncultured, & Chloroplast
 
-	Usage:
+(case in-sensitive)
 
-	`python filter_and_remove_duplicates.py rdp.fa > rdp_filtered.fa`
+**Usage**:
+
+	python filter_and_remove_duplicates.py rdp.fa > rdp_filtered.fa
 
 ### Rakefile
 
 For simplicity, there is a Rakefile that retrieves all required databases from their sources, filters duplicates and unwanted "words", and creates the TaxCollector database.
 
 Just cd into the `taxcollector/` directory and type `rake`. This will result in creation of the file: `tc_rdp.fa`, which is your TaxCollector database.
+
+- `Rake` - Will download necessary databases, filter and create a TaxCollector 
+  database. The resulting database will contain both Archaea and Bacteria 16S 
+  rRNA sequences.
+- `Rake ncbi` - Downloads NCBI names and nodes databases.
+- `Rake rdp` - Downloads RDP database.
 
 ## License
 

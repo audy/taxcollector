@@ -7,7 +7,7 @@ from taxcollector import Dna, Fasta
 # Invoke like this:
 
 # Case insensitive
-filtered_words = set(('eukarya', 'clone', 'plasmid', 'cloning_vector', 'chloroplast'))
+filtered_words = set(('eukarya', 'clone', 'plasmid', 'cloning_vector', 'chloroplast', 'uncultured'))
 
 try:
     filename = sys.argv[1]
