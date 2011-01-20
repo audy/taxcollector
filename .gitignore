@@ -1,4 +1,3 @@
-names.dmp
-nodes.dmp
-rdp*
-data/
+*.dmp
+*.fa
+*.fasta
