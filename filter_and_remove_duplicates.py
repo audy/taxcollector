@@ -24,11 +24,15 @@ with open(sys.argv[1]) as handle:
         if ''.join(record.sequence) not in sequences:
             for word in filtered_words:
                 if word in record.header.lower():
+                    keep = False
                     c += 1
-                    continue
-            sequences.add(''.join(record.sequence))
-            t += 1
-            print record
+                    break
+                else:
+                    keep = True
+            if keep:
+                sequences.add(''.join(record.sequence))
+                t += 1
+                print record
         else:
             c += 1
             

@@ -1,11 +1,9 @@
 #!/usr/bin/env python
 
 DESCRIPTION = """
-
-    TaxCollector 2000
+    TaxCollector 2.0
 Austin G. Davis-Richardson
   harekrishna@gmail.com
-
 """
 
 import sys
@@ -19,6 +17,15 @@ phyla = [ 'superkingdom',
           'species',
           '_sbsp'
          ]
+
+recycled_names = [ # In Order!
+    'superkingdom',
+    'class',
+    'order',
+    'family',
+    'genus',
+    'species'
+    ]
          
 required = (1, 2, 3, 4, 5)
 
@@ -63,13 +70,14 @@ def main():
 def format_name(taxes):
     """ Formats Phylogeny """
     
-    if 'genus' not in taxes:
-        taxes['genus'] = '\"%s\"' % taxes['species']
-    elif 'order' not in taxes:
-        taxes['order'] = '\"%s\"' % taxes['genus']
+    for level in reversed(recycled_names):
+        if level not in taxes:
+            #new_name = taxes[recycled_names[recycled_names.index(level)+1]]
+            #taxes[level] = '\"%s\"' % new_name.strip('\"')
+            taxes[level] = 'null'
     
     p, c = [], 1
-        
+    
     for i in phyla:
         try:
             n = '[%s]%s;' % (c, taxes[i])

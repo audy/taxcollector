@@ -1,29 +1,43 @@
 require 'rake/clean'
 
-task :default => ['tc_rdp.fa'] do
-  puts "TaxCollector -> tc_rdp.fa"
+task :default => ['taxcollector.fa'] do
+  puts "TaxCollector -> taxcollector.fa"
 end
 
-CLEAN.include('tc_rdp.fa', 'rdp_filtered.fa')
-CLOBBER.include('names.dmp', 'nodes.db', 'rdp.fa', 'tc_rdp.fa', 'rdp_filtered.fa')
+CLEAN.include('rdp_tc.fa', 'rdp_filtered.fa', 'rdp_tc.fa', 'taxcollector.fa')
+CLOBBER.include('names.dmp', 'nodes.db', 'rdp.fa', )
 
 task :ncbi => ['names.dmp', 'nodes.dmp']
 task :rdp => 'rdp.fa'
 
-file 'tc_rdp.fa' => ['rdp_filtered.fa', 'names.dmp', 'nodes.dmp'] do
-  sh 'python taxcollector.py names.dmp nodes.dmp rdp.fa > tc_rdp.fa'
-  rm 'rdp_filtered.fa'
+# Running of Scripts
+
+file 'rdp_tc.fa' => ['rdp.fa', 'names.dmp', 'nodes.dmp'] do
+  sh 'python taxcollector.py names.dmp nodes.dmp rdp.fa > rdp_tc.fa' do |okay, res|
+    unless okay
+      rm 'taxcollector.fa'
+      fail res
+    end
+  end
 end
 
-file 'rdp_filtered.fa' => 'rdp.fa' do
-  sh "python filter_and_remove_duplicates.py rdp.fa > rdp_filtered.fa"
-  rm 'rdp.fa'
+file 'taxcollector.fa' => 'rdp_tc.fa' do
+  sh "python filter_and_remove_duplicates.py rdp_tc.fa > taxcollector.fa" do |okay, res|
+    unless okay
+      rm 'rdp_filtered.fa'
+      fail res
+    end
+  end
 end
+
+# Fetching of Databases
 
 file 'names.dmp', 'nodes.dmp' do |task|
   url = 'ftp://ftp.ncbi.nih.gov/pub/taxonomy/taxdump.tar.gz'
   sh "curl #{url} | gunzip | tar -xvf - names.dmp nodes.dmp" do |okay, res|
     unless okay
+      rm 'names.dmp'
+      rm 'nodes.dmp'
       fail res
     end
   end
