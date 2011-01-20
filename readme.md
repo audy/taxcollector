@@ -35,7 +35,7 @@ You can get names.dmp and nodes.dmp from [NCBI's FTP site](ftp://ftp.ncbi.nih.go
 
 My favorite way to do this is by typing
 
-    curl ftp://ftp.ncbi.nih.gov/taxdump.tar.gz | gunzip | tar -xvf names.dmp nodes.dmp
+    curl ftp://ftp.ncbi.nih.gov/pub/taxonomy/taxdump.tar.gz | gunzip | tar -xvf names.dmp nodes.dmp
 
 The FASTA file must come from RDP [http://rdp.cme.msu.edu].
 
