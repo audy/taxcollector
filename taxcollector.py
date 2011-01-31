@@ -52,23 +52,17 @@ def main():
         records = Fasta(handle)
         for record in records:
             h = record.header
-            #Uncomment to re-taxcollect an already tax-collected database
-            #name = h.split(';')[-1][3:].replace('_', ' ')
             name = h[h.find(' ')+1:h.find(';')].replace('(T)', '').strip()
             taxes = collect_taxes(name)
             phylogeny = format_name(taxes)
-            new_header = phylogeny.replace(' ','_')
+            record.header = phylogeny.replace(' ','_')
             p = True
             for r in required:
                 if '[%s]' % r not in phylogeny:
                     skipped += 1
                     p = False
-                    #Uncomment if you want to keep bad ones!
-                    #print record
                     break
-                pass
             if p:
-                record.header = new_header
                 print record
                 
     print >> sys.stderr, '%s names not found in NCBI database.' % skipped
