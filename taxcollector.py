@@ -76,7 +76,7 @@ def format_name(taxes):
             #taxes[level] = '\"%s\"' % new_name.strip('\"')
             taxes[level] = 'null'
     
-    p, c = [], 1
+    p, c = [], 0
     
     for i in phyla:
         try:
