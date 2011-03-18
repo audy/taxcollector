@@ -5,7 +5,7 @@ task :default => ['taxcollector.fa'] do
 end
 
 CLEAN.include('rdp_tc.fa', 'rdp_filtered.fa', 'rdp_tc.fa', 'taxcollector.fa')
-CLOBBER.include('names.dmp', 'nodes.db', 'rdp.fa', )
+CLOBBER.include('names.dmp', 'nodes.db', 'rdp.fa')
 
 task :ncbi => ['names.dmp', 'nodes.dmp']
 task :rdp => 'rdp.fa'
