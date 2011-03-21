@@ -30,7 +30,6 @@ recycled_names = [ # In Order!
 required = (1, 2, 3, 4, 5)
 
 def main():
-    """ For Glory! """
     try:
         names = sys.argv[1] 
         nodes = sys.argv[2]

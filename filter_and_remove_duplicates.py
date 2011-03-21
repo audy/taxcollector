@@ -14,7 +14,7 @@ try:
 except IndexError:
     print >> sys.stderr, "usage: %s input.fasta > output.fasta" % sys.argv[0]
 
-print >> sys.stderr, "removing words: (%s), and duplciates from %s" % \
+print >> sys.stderr, "removing words: (%s), and duplicates from %s" % \
     (' '.join(filtered_words), filename)
 
 sequences = set()
