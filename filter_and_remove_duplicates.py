@@ -1,3 +1,4 @@
+#!/usr/bin/env python2
 import sys
 from taxcollector import Dna, Fasta
 
@@ -7,7 +8,7 @@ from taxcollector import Dna, Fasta
 # Invoke like this:
 
 # Case insensitive
-filtered_words = set(('eukarya', 'clone', 'plasmid', 'cloning_vector', 'chloroplast', 'uncultured'))
+filtered_words = set(('eukaryota', 'eukarya', 'clone', 'plasmid', 'cloning_vector', 'chloroplast', 'uncultured'))
 
 try:
     filename = sys.argv[1]
