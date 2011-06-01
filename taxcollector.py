@@ -30,6 +30,7 @@ recycled_names = [ # In Order!
 required = (1, 2, 3, 4, 5)
 
 def main():
+
     try:
         names = sys.argv[1] 
         nodes = sys.argv[2]
@@ -54,7 +55,9 @@ def main():
             name = h[h.find(' ')+1:h.find(';')].replace('(T)', '').strip()
             taxes = collect_taxes(name)
             phylogeny = format_name(taxes)
-            record.header = phylogeny.replace(' ','_')
+            record.header = "%s[8]%s|%s" % (phylogeny.replace(' ', '_'),
+                                    record.orig_name.replace(' ', '_'),
+                                    record.accession)
             p = True
             for r in required:
                 if '[%s]' % r not in phylogeny:
@@ -65,7 +68,7 @@ def main():
                 print record
                 
     print >> sys.stderr, '%s names not found in NCBI database.' % skipped
-                
+
 def format_name(taxes):
     """ Formats Phylogeny """
     
@@ -175,6 +178,8 @@ class Dna:
     ''' An object representing either a FASTA or FASTQ record '''
     def __init__(self, header, sequence, quality = False):
         self.header = header
+        self.accession = header.split(';')[-1].strip()
+        self.orig_name = ' '.join(header.split(';')[0].split()[1:])
         self.sequence = sequence
     def __str__(self):
         ''' returns a FASTA/Q formatted string '''
