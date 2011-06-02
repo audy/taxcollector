@@ -39,20 +39,6 @@ My favorite way to do this is by typing
 
 The FASTA file must come from RDP (http://rdp.cme.msu.edu).
 
-
-### Removing unwanted records
-
-There is a script included to remove duplicate records (records that have exactly the same sequence), as well as records that contain the following words in the header (before taxcollecting):
-
-	Eukarya, Clone, Plasmid, Cloning_vector, Uncultured, & Chloroplast
-
-(case in-sensitive)
-
-**Usage**:
-
-	python filter_and_remove_duplicates.py rdp.fa > rdp_filtered.fa
-
-
 ## License
 
 This software is distributed under the [GNU GPL 2.0 software license](http://www.gnu.org/licenses/gpl.html).
