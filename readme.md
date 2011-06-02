@@ -51,17 +51,6 @@ There is a script included to remove duplicate records (records that have exactl
 
 	python filter_and_remove_duplicates.py rdp.fa > rdp_filtered.fa
 
-### Rakefile
-
-For simplicity, there is a Rakefile that retrieves all required databases from their sources, filters duplicates and unwanted "words", and creates the TaxCollector database.
-
-Just cd into the `taxcollector/` directory and type `rake`. This will result in creation of the file: `tc_rdp.fa`, which is your TaxCollector database.
-
-- `Rake` - Will download necessary databases, filter and create a TaxCollector 
-  database. The resulting database will contain both Archaea and Bacteria 16S 
-  rRNA sequences.
-- `Rake ncbi` - Downloads NCBI names and nodes databases.
-- `Rake rdp` - Downloads RDP database.
 
 ## License
 
