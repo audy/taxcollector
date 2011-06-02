@@ -1,3 +1,5 @@
 *.dmp
 *.fa
 *.fasta
+*.pyc
+databases/*
