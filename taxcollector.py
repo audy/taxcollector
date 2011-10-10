@@ -20,6 +20,15 @@ recycled_names = [ # In Order!
     'genus',
     'species'
     ]
+    
+skip_if = [
+    'eukaryota',
+    'eukarya',
+    'clone',
+    'plasmid',
+    'vector',
+    'uncultured'
+]
          
 required = (1, 2, 3, 4, 5)
 
@@ -59,7 +68,14 @@ def main():
                     p = False
                     break
             if p:
+                # don't print record if certain words are in name
+                for word in skip_if:
+                    if word.upper() in record.header.upper():
+                        p = False
+                        break
+            if p:
                 print record
+                        
                 
     print >> sys.stderr, '%s names not found in NCBI database.' % skipped
     

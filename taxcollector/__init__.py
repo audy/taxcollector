@@ -1,3 +1,30 @@
+phyla = [ 'superkingdom',
+          'phylum',
+          'class',
+          'order',
+          'family',
+          'genus',
+          'species',
+          '_sbsp'
+         ]
+
+recycled_names = [ # In Order!
+    'superkingdom',
+    'class',
+    'order',
+    'family',
+    'genus',
+    'species'
+    ]
+    
+skip_if = [
+    'eukaryota',
+    'eukarya',
+    'clone',
+    'plasmid',
+    'vector'
+]
+
 def format_name(taxes):
     """ Formats Phylogeny """
     
