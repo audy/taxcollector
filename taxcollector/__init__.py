@@ -1,3 +1,4 @@
+# how we want our taxonomy to look
 phyla = [ 'superkingdom',
           'phylum',
           'class',
@@ -8,7 +9,8 @@ phyla = [ 'superkingdom',
           '_sbsp'
          ]
 
-recycled_names = [ # In Order!
+# levels to create psuedonymns for (currently not enabled)
+recycled_names = [
     'superkingdom',
     'class',
     'order',
@@ -16,20 +18,13 @@ recycled_names = [ # In Order!
     'genus',
     'species'
     ]
-    
-skip_if = [
-    'eukaryota',
-    'eukarya',
-    'clone',
-    'plasmid',
-    'vector'
-]
 
 def format_name(taxes):
     """ Formats Phylogeny """
     
     for level in reversed(recycled_names):
         if level not in taxes:
+            # TODO make this an option:
             #new_name = taxes[recycled_names[recycled_names.index(level)+1]]
             #taxes[level] = '\"%s\"' % new_name.strip('\"')
             taxes[level] = 'null'
