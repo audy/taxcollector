@@ -17,17 +17,35 @@ For example, this script takes the default RDP header:
 
 And converts it to this:
 
-    [1]Bacteria;[2]Acidobacteria;[3]Acidobacteria_(class);[4]Acidobacteriales;[5]Acidobacteriaceae;[6]"uncultured_Acidobacteriaceae";[7]uncultured_Acidobacteriaceae;[8]uncultured_Acidobacteriaceae_bacterium
+[1]Bacteria;[2]Acidobacteria;[3]Acidobacteria_(class);[4]Acidobacteriales;[5]Acidobacteriaceae;[6]"uncultured_Acidobacteriaceae";[7]uncultured_Acidobacteriaceae;[8]uncultured_Acidobacteriaceae_bacterium
 
 Notice that the Genus is in "quotes." This means that there was no entry for Genus in the NCBI names and nodes databases. In this case, TaxCollector will make one up, recycling the previous name. This only happens for Genus and Order.
 
 This can be useful for some people. For others, not.
 
+By default, TaxCollector filters out entries with the following in their taxonomy:
+
+    'eukaryota'
+    'eukarya'
+    'clone'
+    'plasmid'
+    'vector'
+    'uncultured'
+
+If you don't want this, change it in the taxcollector.py file
+
 ## Invocation
 
 ### TaxCollector
 
-Otherwise, invoke _comme ca_
+#### For the lazy:
+
+Type `make`.
+This will download necessary databases and compile you a taxcollector.fa file
+
+#### Otherwise
+
+invoke _comme ca_
 
     python taxcollector.py names.dmp nodes.dmp input.fasta > output.fasta
 
