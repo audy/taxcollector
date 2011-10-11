@@ -17,7 +17,7 @@ For example, this script takes the default RDP header:
 
 And converts it to this:
 
-[1]Bacteria;[2]Acidobacteria;[3]Acidobacteria_(class);[4]Acidobacteriales;[5]Acidobacteriaceae;[6]"uncultured_Acidobacteriaceae";[7]uncultured_Acidobacteriaceae;[8]uncultured_Acidobacteriaceae_bacterium
+    [1]Bacteria;[2]Acidobacteria;[3]Acidobacteria_(class);[4]Acidobacteriales;[5]Acidobacteriaceae;[6]"uncultured_Acidobacteriaceae";[7]uncultured_Acidobacteriaceae;[8]uncultured_Acidobacteriaceae_bacterium
 
 Notice that the Genus is in "quotes." This means that there was no entry for Genus in the NCBI names and nodes databases. In this case, TaxCollector will make one up, recycling the previous name. This only happens for Genus and Order.
 
