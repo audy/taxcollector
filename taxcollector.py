@@ -19,11 +19,16 @@ def main():
     try:
         names = sys.argv[1] 
         nodes = sys.argv[2]
-        fasta = sys.argv[3]
+        blast = sys.argv[3]
+        gi_to_taxid = sys.argv[4]
     except IndexError:
         print >> sys.stderr, 'USAGE: %s names nodes fasta out' % sys.argv[0]
         quit(-1)
-    
+
+    # load gi_to_taxid database
+    with open(gi_to_taxid) as handle:
+        gi_to_taxid = load_ncbi_taxdump(handle)
+
     # load names database.
     with open(names) as handle:
         names = Names(handle)
@@ -34,38 +39,24 @@ def main():
     
     # create a function to collect taxonomic description given
     # names and nodes databases from NCBI
-    collect_taxes = tax_collector(names, nodes)
+    collect_taxes = tax_collector(
+                            names=names,
+                            nodes=nodes,
+                            gi_to_taxid=gi_to_taxid)
 
     # collect RDP database
-    with open(fasta) as handle:
+    with open(blast) as handle:
         skipped = 0
         records = Fasta(handle)
-        for record in records:
-            h = record.header
-            name = h[h.find(' ')+1:h.find(';')].replace('(T)', '').strip()
-            taxes = collect_taxes(name)
+        for line in handle:
+            line = line.strip().split("\t")
+            gid = int(line[1].split('|')[1])
+            
+            taxes = collect_taxes(gi = gid)
             phylogeny = format_name(taxes)
-            record.header = "%s[8]%s|%s" % (phylogeny.replace(' ', '_'),
-                                    record.orig_name.replace(' ', '_'),
-                                    record.accession)
-            # p = print?
-            p = True
-            # make sure taxonomic description is complete enough
-            for r in required:
-                if '[%s]' % r not in phylogeny:
-                    skipped += 1
-                    p = False
-                    break
-            if p:
-                # don't print record if certain words are in name
-                # these records are in skip_if
-                for word in skip_if:
-                    if word.upper() in record.header.upper():
-                        p = False
-                        break
-            # yay our record is good, print it!
-            if p:
-                print record
+            taxonomy = "%s" % phylogeny.replace(' ', '_')
+            line[1] = "%s\t%s" % (line[1], taxonomy)
+            print "\t".join(line)
                         
     # tell the user how bad we did            
     print >> sys.stderr, '%s names not found in NCBI database.' % skipped

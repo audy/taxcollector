@@ -41,14 +41,33 @@ def format_name(taxes):
             c += 1
     return ''.join(p).rstrip(';')
     
-def tax_collector(names, nodes):
-    """ Returns a taxonomy given a name"""
-    def collect_taxes(name):
+def tax_collector(**kwargs):
+    """ Returns a taxcollector function that will return a taxonomy given a name """
+    
+    names = kwargs['names']
+    nodes = kwargs['nodes']
+    gi_to_taxid = kwargs.get('gi_to_taxid', False)
+    
+    def collect_taxes(**kwargs):
+        
+        # get name or taxid
+        name = kwargs.get('name', False)
+        gi   = kwargs.get('gi', False)
+        
+        # make sure user doesnt specify both a name and a taxid
+        assert not (name and gi)
+        
         taxes = {}
-        i = names.get_id(name)
+        if name:
+            i = names.get_id(name)
+        elif gi:
+            i = gi_to_taxid.get(int(gi), 1)
+        
         n = nodes.get_parent(i)
-        taxes['species'] = ' '.join(name.split()[:2])
-        taxes['_sbsp'] = name
+        
+        if name:
+            taxes['species'] = ' '.join(name.split()[:2])
+            taxes['_sbsp'] = name
     
         while i not in (None, 1):
             i = n['parent']
@@ -107,6 +126,15 @@ class Nodes(object):
             return self.n[taxid]
         except KeyError:
             return { 'parent': None, 'childtype': None }
+            
+def load_ncbi_taxdump(ncbi_taxdump):
+    ''' Load gi_to_taxid file for taxcollecting NCBI databases '''
+    gi_to_taxid = {}
+    for line in ncbi_taxdump:
+        line = line.strip().split()
+        gi, taxid = int(line[0]), int(line[1])
+        gi_to_taxid[gi] = taxid
+    return gi_to_taxid
 
 class Fasta:
     """ Fasta Interpreter """
