@@ -45,7 +45,7 @@ def main():
             name = h[h.find(' ')+1:h.find(';')].replace('(T)', '').strip()
             taxes = collect_taxes(name)
             phylogeny = format_name(taxes)
-            record.header = "%s[8]%s|%s" % (phylogeny.replace(' ', '_'),
+            record.header = "%s;[8]%s|%s" % (phylogeny.replace(' ', '_'),
                                     record.orig_name.replace(' ', '_'),
                                     record.accession)
             # p = print?
