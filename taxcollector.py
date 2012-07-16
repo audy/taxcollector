@@ -40,14 +40,14 @@ def main():
     with open(fasta) as handle:
         skipped = 0
         records = Fasta(handle)
-        for record in records:
+        for i, record in enumerate(records):
             h = record.header
             name = h[h.find(' ')+1:h.find(';')].replace('(T)', '').strip()
             taxes = collect_taxes(name)
             phylogeny = format_name(taxes)
-            record.header = "%s;[8]%s|%s" % (phylogeny.replace(' ', '_'),
+            record.header = "%s;[8]%s|%s|%s" % (phylogeny.replace(' ', '_'),
                                     record.orig_name.replace(' ', '_'),
-                                    record.accession)
+                                    record.accession, i)
             # p = print?
             p = True
             # make sure taxonomic description is complete enough
