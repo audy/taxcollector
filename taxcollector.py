@@ -46,9 +46,6 @@ def main():
             name  = ' '.join(h.split('_')[1:3])
             taxes = collect_taxes(name)
 
-            print taxes
-            next
-
             phylogeny = format_name(taxes)
             record.header = "%s;[8]%s|%s|%s" % (phylogeny.replace(' ', '_'),
                                     record.orig_name.replace(' ', '_'),
