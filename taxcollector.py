@@ -42,8 +42,13 @@ def main():
         records = Fasta(handle)
         for i, record in enumerate(records):
             h = record.header
-            name = h[h.find(' ')+1:h.find(';')].replace('(T)', '').strip()
+            #name = h[h.find(' ')+1:h.find(';')].replace('(T)', '').strip()
+            name  = ' '.join(h.split('_')[1:3])
             taxes = collect_taxes(name)
+
+            print taxes
+            next
+
             phylogeny = format_name(taxes)
             record.header = "%s;[8]%s|%s|%s" % (phylogeny.replace(' ', '_'),
                                     record.orig_name.replace(' ', '_'),
@@ -51,18 +56,18 @@ def main():
             # p = print?
             p = True
             # make sure taxonomic description is complete enough
-            for r in required:
-                if '[%s]' % r not in phylogeny:
-                    skipped += 1
-                    p = False
-                    break
-            if p:
-                # don't print record if certain words are in name
-                # these records are in skip_if
-                for word in skip_if:
-                    if word.upper() in record.header.upper():
-                        p = False
-                        break
+            #for r in required:
+            #    if '[%s]' % r not in phylogeny:
+            #        skipped += 1
+            #        p = False
+            #        break
+            #if p:
+            #    # don't print record if certain words are in name
+            #    # these records are in skip_if
+            #    for word in skip_if:
+            #        if word.upper() in record.header.upper():
+            #            p = False
+            #            break
             # yay our record is good, print it!
             if p:
                 print record

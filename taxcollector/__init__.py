@@ -1,5 +1,6 @@
 # how we want our taxonomy to look
 phyla = [ 'superkingdom',
+          'kingdom',
           'phylum',
           'class',
           'order',
