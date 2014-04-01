@@ -6,3 +6,9 @@ rdp.fa:
 
 %.dmp:
 	curl ftp://ftp.ncbi.nih.gov/pub/taxonomy/taxdump.tar.gz | gunzip | tar -xvf - names.dmp nodes.dmp
+
+clean:
+	rm rdp.fa
+	rm taxcollector.fa
+	rm names.dmp
+	rm nodes.dmp
