@@ -108,6 +108,10 @@ class Nodes(object):
         except KeyError:
             return { 'parent': None, 'childtype': None }
 
+    def __iter__(self):
+        for k in self.n:
+            yield (k, self.n[k])
+
 class Fasta:
     """ Fasta Interpreter """
     def __init__(self, handle):
