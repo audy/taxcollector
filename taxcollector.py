@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 from taxcollector import *
 import sys
 
@@ -21,7 +21,7 @@ def main():
         nodes = sys.argv[2]
         fasta = sys.argv[3]
     except IndexError:
-        print >> sys.stderr, 'USAGE: %s names nodes fasta out' % sys.argv[0]
+        print(f'USAGE: {sys.argv[0]} names nodes fasta out', file=sys.stderr)
         quit(-1)
 
     # load names database.
@@ -65,14 +65,10 @@ def main():
                         break
             # yay our record is good, print it!
             if p:
-                print record
+                print(record)
 
     # tell the user how bad we did
-    print >> sys.stderr, '%s names not found in NCBI database.' % skipped
+    print(f"{skipped} names not found in NCBI database", file=sys.stderr)
 
 if __name__ == '__main__':
-    try:
-        main()
-    except KeyboardInterrupt:
-        print >> sys.stderr, "User Exited!"
-        quit(-1)
+    main()
