@@ -21,16 +21,16 @@ recycled_names = [
 
 def format_name(taxes):
     """ Formats Phylogeny """
-    
+
     for level in reversed(recycled_names):
         if level not in taxes:
             # TODO make this an option:
             #new_name = taxes[recycled_names[recycled_names.index(level)+1]]
             #taxes[level] = '\"%s\"' % new_name.strip('\"')
             taxes[level] = 'null'
-    
+
     p, c = [], 0
-    
+
     for i in phyla:
         try:
             n = '[%s]%s;' % (c, taxes[i])
@@ -40,7 +40,7 @@ def format_name(taxes):
         finally:
             c += 1
     return ''.join(p).rstrip(';')
-    
+
 def tax_collector(names, nodes):
     """ Returns a taxonomy given a name"""
     def collect_taxes(name):
@@ -49,48 +49,48 @@ def tax_collector(names, nodes):
         n = nodes.get_parent(i)
         taxes['species'] = ' '.join(name.split()[:2])
         taxes['_sbsp'] = name
-    
+
         while i not in (None, 1):
             i = n['parent']
-            n = nodes.get_parent(i) 
+            n = nodes.get_parent(i)
             t = n['childtype']
             name = names.get_name(i)
             taxes[t] = name
 
         return taxes
     return collect_taxes
-    
+
 class Names(object):
     """ Names Database """
     def __init__(self, handle):
         """ Load the Database """
-        
+
         self.d, self.n = {}, {}
-        
+
         for line in handle:
             line = line.split('\t|\t')
             taxid = int(line[0])
             name = line[1].replace(' ', '_')
             kind = line[3].replace('\t|\n', '')
-            
+
             if 'scientific name' == kind:
                 self.d[name] = taxid
                 self.n[taxid] = name
-                
+
     def get_name(self, q):
         """ Return a Name given an ID """
         try:
             return self.n[q]
         except KeyError:
             return None
-        
+
     def get_id(self, name):
         """ Return an ID given a Name """
         try:
             return self.d[name.replace(' ', '_')]
         except KeyError:
             return None
-    
+
 class Nodes(object):
     """ Nodes Database """
     def __init__(self, handle):

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from taxcollector import *
 import sys
-    
+
 skip_if = [
     'eukaryota',
     'eukarya',
@@ -10,28 +10,28 @@ skip_if = [
     'vector',
     'uncultured'
 ]
-         
+
 required = (1, 2, 3, 4, 5)
 
 def main():
 
     # parse arguments
     try:
-        names = sys.argv[1] 
+        names = sys.argv[1]
         nodes = sys.argv[2]
         fasta = sys.argv[3]
     except IndexError:
         print >> sys.stderr, 'USAGE: %s names nodes fasta out' % sys.argv[0]
         quit(-1)
-    
+
     # load names database.
     with open(names) as handle:
         names = Names(handle)
-    
+
     # load nodes database
     with open(nodes) as handle:
         nodes = Nodes(handle)
-    
+
     # create a function to collect taxonomic description given
     # names and nodes databases from NCBI
     collect_taxes = tax_collector(names, nodes)
@@ -66,10 +66,10 @@ def main():
             # yay our record is good, print it!
             if p:
                 print record
-                        
-    # tell the user how bad we did            
+
+    # tell the user how bad we did
     print >> sys.stderr, '%s names not found in NCBI database.' % skipped
-    
+
 if __name__ == '__main__':
     try:
         main()
