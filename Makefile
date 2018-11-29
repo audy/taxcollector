@@ -5,7 +5,7 @@ rdp.fa:
 	curl http://rdp.cme.msu.edu/download/current_Bacteria_unaligned.fa.gz | gunzip > rdp.fa
 
 %.dmp:
-	curl ftp://ftp.ncbi.nih.gov/pub/taxonomy/taxdump.tar.gz | gunzip | tar -xvf - names.dmp nodes.dmp
+	curl -# ftp://ftp.ncbi.nih.gov/pub/taxonomy/taxdump.tar.gz | gunzip | tar -xvf - names.dmp nodes.dmp
 
 clean:
 	rm rdp.fa
